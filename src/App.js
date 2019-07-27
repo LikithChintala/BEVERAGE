@@ -3,7 +3,7 @@ import './App.css';
 import Main from './components/main';
 import Admin from './components/admin';
 import Customer from './components/customer';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route,Redirect } from "react-router-dom";
 
 
 const beverageMenu =
@@ -47,10 +47,12 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Route exact path="/" globalStore={beverageMenu} component={Main} />
+          {/* <Route exact path="/" globalStore={beverageMenu} component={Main} /> */}
           {/* <Route path="/admin" globalStore={beverageMenu} component={Admin} /> */}
+          <Redirect from="/" to="customer" />
           <Route path="/customer" component={() => <Customer globalStore={beverageMenu} />} />
           <Route path="/admin" component={() => <Admin globalStore={beverageMenu} />} />
+
         </div>
       </Router>
     );

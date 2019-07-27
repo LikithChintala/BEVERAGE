@@ -3,6 +3,37 @@ import { Container, Row, Col, Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Order } from '../actions/actions'
 import { Link } from 'react-router-dom';
+import styled from 'styled-components'
+
+
+const OrderHead = styled.div`
+    background:#f7a43c;
+    color:#fff;
+    font-weight:bold;
+    text-align:center;
+    padding:10px;
+`
+const OrderBody = styled.div`
+background:#fff;
+color:#272727;
+font-weight:bold;
+text-transform: capitalize;
+padding:5px;
+text-align:center;
+
+`
+const OrderContainer = styled.div`
+margin: 10px;
+cursor:pointer;
+`
+const Heading = styled.div`
+    color:#fff;
+    font-weight:bold;
+    text-transform:uppercase;
+    text-align:center;
+`
+
+
 
 class Customer extends Component {
     constructor(props) {
@@ -81,14 +112,11 @@ class Customer extends Component {
             this.state.allOrders.forEach((ele, index) => {
                 let seconds = Math.ceil((new Date().getTime() - new Date(ele.OrderCreatedTimeStamp).getTime()) / 1000)
                 let ele_dom = (
-                    <div key={index}>
-                        <span>{ele.BeverageBarUserFirstName}</span>
-                        <br />
-                        <span>{ele.OrderedBeverage.Name}</span>
-                        {Math.ceil((new Date().getTime() - new Date(ele.OrderCreatedTimeStamp).getTime()) / 1000)}
-                        <br />
-                        <br />
-                    </div>
+                    <OrderContainer key={index}>
+                        <OrderHead>{ele.OrderedBeverage.Name}</OrderHead>
+                        <OrderBody>{ele.BeverageBarUserFirstName}</OrderBody>
+                        {/* {Math.ceil((new Date().getTime() - new Date(ele.OrderCreatedTimeStamp).getTime()) / 1000)} */}
+                    </OrderContainer>
                 )
                 if (seconds > 120 || ele.IsReadyToCollect) {
                     if (!ele.IsReadyToCollect) {
@@ -119,22 +147,38 @@ class Customer extends Component {
         return (
             <React.Fragment>
                 <Container>
-                    <Row>
-                        <Link to='/' >Back</Link>
+                    <br />
+                    <Row
+                        style={{
+                            'justify-content': 'flex-end', 'padding': '15px'
+
+                        }}
+                    >
+                        <Link to='/customer' >
+                            <Button variant="secondary">Switch to customer</Button>
+                        </Link>
                     </Row>
                     <Row>
-                        <Col xs={{ span: 12, order: 1 }} md={{ span: 9, order: 2 }}>
-                            <Row>
+                        <Col xs={{ span: 12, order: 1 }} md={{ span: 12, order: 2 }}>
+                            <Heading>BEVERAGE queue</Heading>
+
+                            <Row style={{
+                                'border': '2px solid #fff',
+                                'height': '100%',
+                                'min-height': '40vh',
+                                'margin': 'auto',
+                                'padding': '10px'
+                            }}>
                                 <Col xs={{ span: 12, order: 3 }} md={{ span: 4, order: 1 }}>
-                                    <strong>In Queue</strong>
+                                    <Heading>In the Queue</Heading>
                                     {inQuene}
                                 </Col>
                                 <Col xs={{ span: 12, order: 2 }} md={{ span: 4, order: 2 }}>
-                                    <strong>Process</strong>
+                                    <Heading>being mixed</Heading>
                                     {inMix}
                                 </Col>
                                 <Col xs={{ span: 12, order: 1 }} md={{ span: 4, order: 3 }}>
-                                    <strong>Delivered</strong>
+                                    <Heading>ready to collect</Heading>
                                     {inCollected}
                                 </Col>
                             </Row>
